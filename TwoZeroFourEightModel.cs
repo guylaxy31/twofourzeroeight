@@ -40,6 +40,68 @@ namespace twozerofoureight
             return board;
         }
 
+        public bool CheckBlockFull()            // check each num n board is full? if full return true!!
+        {
+            int count = 0;
+            foreach (int num in board)          // for loop
+            {
+                if (num > 0)
+                {
+                    count++;
+                }
+            }
+            if (count == 16) return true;
+            else return false;
+        }
+
+        public bool GameOver() 
+        {
+            int count = 0;                                                    //      y0  y1  y2  y3
+                for (int x = 0; x < 3; x++)             // limit x = 0 1 2        x0 
+                {                                                             //  x1
+                    for (int y = 0; y < 4; y++)                               //  x2
+                    {                                                         //  x3                    <--- x3 will not check because already check from x2 loops
+                        if (y != 3) 
+                        {
+                            if (board[x, y] != board[x, y + 1] && board[x, y] != board[x + 1, y])       //if current isn't right of board check right and bottom
+                            {
+                                count++;
+                            }
+                        }
+                        else
+                        {
+                            if (board[x, y] != board[x + 1, y])         // if current is right of board check bottom only
+                            {
+                                count++;
+                            }
+                        }
+                    }
+                }
+                if (count >= 12)                                        //if all num in board was count  check full or !full
+                {                                                       // if true function gameover  will return true and display show
+                    if (CheckBlockFull())
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+                else
+                {
+                    return false;
+                }
+        }
+
+
+        public int GetScore()
+        {
+            int sc=0;                   // everytime when use this method clear score before calculate
+            foreach(int numinboard in board)
+            {
+                sc += numinboard;
+            }
+            return sc; 
+        }
+
         private void AddRandomSlot()
         {
             while (true)

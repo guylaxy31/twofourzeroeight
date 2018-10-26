@@ -28,7 +28,15 @@ namespace twozerofoureight
         public void Notify(Model m)
         {
             UpdateBoard(((TwoZeroFourEightModel)m).GetBoard());
+            scoreBox.Text = ((TwoZeroFourEightModel)m).GetScore().ToString();
+
+            if (((TwoZeroFourEightModel)m).GameOver())
+            {
+                gameOver.Visible = true;
+            }
+            else gameOver.Visible = false;
         }
+       
 
         private void UpdateTile(Label l, int i)
         {
@@ -99,5 +107,36 @@ namespace twozerofoureight
             controller.ActionPerformed(TwoZeroFourEightController.DOWN);
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)                            // Method to use arrow-key
+        {
+                if(keyData == Keys.Up || keyData == Keys.Down || keyData == Keys.Left || keyData == Keys.Right)
+            {
+                switch (keyData)
+                {
+                    case Keys.Up:
+                        controller.ActionPerformed(TwoZeroFourEightController.UP);
+                        break;
+                    case Keys.Down:
+                        controller.ActionPerformed(TwoZeroFourEightController.DOWN);
+                        break;
+                    case Keys.Left:
+                        controller.ActionPerformed(TwoZeroFourEightController.LEFT);
+                        break;
+                    case Keys.Right:
+                        controller.ActionPerformed(TwoZeroFourEightController.RIGHT);
+                        break;
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            } 
+        }
+
+        private void gameOver_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
